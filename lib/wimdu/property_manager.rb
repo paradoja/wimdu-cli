@@ -41,7 +41,7 @@ module Wimdu
       if count.zero?
         stdout.puts "No offers found."
       else
-        stdout.puts "Found #{count} offer#{count > 1 ? '' : 's'}"
+        stdout.puts "Found #{count} offer#{count > 1 ? 's' : ''}"
         stdout.puts
         completed.each do |property|
           stdout.puts "#{property.code}: #{property.title}"
