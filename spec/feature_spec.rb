@@ -28,6 +28,7 @@ describe "Wimdu CLI" do
       expect(process.output).to include("Phone:")
       type "phone"
 
+      sleep 1
       expect(Property.where(completed: true).count).to eq(1)
     end
   end
