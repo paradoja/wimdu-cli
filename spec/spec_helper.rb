@@ -1,6 +1,8 @@
 require 'aruba/api'
 require 'aruba/reporting'
-require "byebug"
+require 'aruba/in_process'
+require 'wimdu/runner'
+require 'byebug'
 
 RSpec.configure do |config|
   config.include Aruba::Api
