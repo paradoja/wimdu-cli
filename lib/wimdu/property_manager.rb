@@ -15,7 +15,6 @@ module Wimdu
       property = Property.create!
       stdout.puts "Starting with new property #{property.code}."
       add_fields(property, PROPERTY_METHODS)
-      property.update!(completed: true)
     end
 
     def list
@@ -32,8 +31,22 @@ module Wimdu
       end
     end
 
-    def continue
-      stdout.puts "TODO"
+    def continue(code)
+      property = Property.find_by(code: code)
+      if property.nil?
+        stdout.puts "Error: Property not found."
+        return
+      elsif property.completed?
+        stdout.puts "Error: Property fully completed."
+        return
+      end
+
+      empty_fields = PROPERTY_METHODS.select do |field, _|
+        property.send(field).nil? ||
+          (property.respond_to?(:empty?) && property.send(field).empty?)
+      end
+
+      add_fields(property, empty_fields)
     end
 
     private
@@ -55,6 +68,8 @@ module Wimdu
           redo
         end
       end
+      property.update!(completed: true)
+      stdout.puts "Great job! Listing #{property.code} is complete!"
     rescue Interrupt
       # do nothing
     end

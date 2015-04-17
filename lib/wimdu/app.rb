@@ -20,8 +20,8 @@ module Wimdu
     end
 
     desc "continue", "Continue adding properties"
-    def continue
-      @property_manager.continue
+    def continue(code)
+      @property_manager.continue(code)
     end
   end
 end
