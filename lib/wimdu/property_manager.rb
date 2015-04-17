@@ -41,6 +41,8 @@ module Wimdu
         return
       end
 
+      stdout.puts "Continuing with #{property.code}."
+
       empty_fields = PROPERTY_METHODS.select do |field, _|
         property.send(field).nil? ||
           (property.respond_to?(:empty?) && property.send(field).empty?)
