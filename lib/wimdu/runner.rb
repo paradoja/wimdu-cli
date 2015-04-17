@@ -29,7 +29,7 @@ module Wimdu
                   rescue SystemExit => e
                     e.status
                   ensure
-                    Property.destroy_all
+                    # Property.destroy_all
 
                     $stderr = STDERR
                     $stdin = STDIN

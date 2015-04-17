@@ -3,6 +3,10 @@ require "spec_helper"
 describe "Wimdu CLI" do
   let(:exe) { File.expand_path('../../bin/wimdu', __FILE__) }
 
+  # after :each do
+  #   Propety.destroy_all
+  # end
+
   describe "new" do
     let(:cmd) { "#{exe} new" }
 
