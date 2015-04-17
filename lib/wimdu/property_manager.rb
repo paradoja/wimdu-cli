@@ -12,8 +12,8 @@ module Wimdu
     end
 
     def add
-      stdout.puts "Starting with new property ABC1DEF2."
-      property = Property.new(code: "ABC1DEF2")
+      property = Property.create!
+      stdout.puts "Starting with new property #{property.code}."
       PROPERTY_METHODS.each do |field, text|
         begin
           stdout.print "#{text}: "
