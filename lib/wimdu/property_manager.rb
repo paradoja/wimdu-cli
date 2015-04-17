@@ -9,12 +9,22 @@ module Wimdu
       stdout.puts "Starting with new property ABC1DEF2."
       property = Property.new(code: "ABC1DEF2")
       PROPERTY_METHODS.each do |field, text|
-        stdout.print "#{text}: "
-        stdout.flush
-        value = stdin.gets
-        property.send("#{field}=", value)
-        property.save!
+        begin
+          stdout.print "#{text}: "
+          stdout.flush
+          value = stdin.gets
+          property.send("#{field}=", value)
+          property.save!
+        rescue ActiveRecord::RecordInvalid => e
+          stdout.puts
+          stdout.puts e.message.match(/\A[^:]+: [a-zA-Z]+ (.+)\z/).try(:[], 1)
+          stdout.puts
+          redo
+        end
       end
+
+    rescue Interrupt
+      # do nothing
     end
 
     private
