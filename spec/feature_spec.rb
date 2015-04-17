@@ -39,5 +39,27 @@ describe "Wimdu CLI" do
       process = run_interactive(cmd)
       expect(process.output).to include("No offers found")
     end
+
+    it "indicates the number of properties and their data if there are" do
+      Property.create!(title: 't1', completed: true)
+      Property.create!(title: 't2', completed: true)
+
+      process = run_interactive(cmd)
+      expect(process.output).to include("Found 2 offers")
+      expect(process.output).to include("t1")
+      expect(process.output).to include("t2")
+    end
+
+    it "only indicates completed properties" do
+      Property.create!(title: 't1', completed: true)
+      Property.create!(title: 't2', completed: false)
+      Property.create!(title: 't3', completed: true)
+
+      process = run_interactive(cmd)
+      expect(process.output).to include("Found 2 offers")
+      expect(process.output).to include("t1")
+      expect(process.output).not_to include("t2")
+      expect(process.output).to include("t3")
+    end
   end
 end
