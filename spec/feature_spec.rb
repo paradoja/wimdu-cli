@@ -27,8 +27,9 @@ describe "Wimdu CLI" do
       type "email@example.org"
       expect(process.output).to include("Phone:")
       type "+1234"
-
       sleep 1
+      expect(process.output).to include("Great job! Listing ABC0000 is complete!")
+
       expect(Property.where(completed: true).count).to eq(1)
       property = Property.first
       expect(property.title).to eq("My Title")
@@ -40,7 +41,7 @@ describe "Wimdu CLI" do
       expect(property.phone).to eq("+1234")
     end
 
-    it "allow entering incomplete data" do
+    it "allows entering incomplete data" do
       process = run_interactive(cmd)
       expect(process.output).to include("Starting with new property")
       expect(process.output).to include("Title: ")
@@ -52,6 +53,28 @@ describe "Wimdu CLI" do
       property = Property.first
       expect(property.title).to eq("My Title")
       expect(property.completed?).to eq(false)
+    end
+
+    it "validates empty fields" do
+      process = run_interactive(cmd)
+      expect(process.output).to include("Starting with new property")
+      expect(process.output).to include("Title: ")
+      type ""
+      expect(process.output).not_to include("Property type")
+      type "My Title"
+      expect(process.output).to include("Property type")
+    end
+
+    it "enforces non-empty validations" do
+      process = run_interactive(cmd)
+      expect(process.output).to include("Starting with new property")
+      expect(process.output).to include("Title: ")
+      type "My Title"
+      expect(process.output).to include("Property type")
+      type "something else"
+      expect(process.output).not_to include("Nightly rate")
+      type "home"
+      expect(process.output).to include("Nightly rate")
     end
   end
 
