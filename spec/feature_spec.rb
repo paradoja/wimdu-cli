@@ -10,7 +10,7 @@ describe "Wimdu CLI" do
   describe "new" do
     let(:cmd) { "#{exe} new" }
 
-    it "allows for entering data" do
+    it "allows for entering data and recording it correctly" do
       process = run_interactive(cmd)
       expect(process.output).to include("Starting with new property")
       expect(process.output).to include("Title: ")
@@ -26,10 +26,32 @@ describe "Wimdu CLI" do
       expect(process.output).to include("Email:")
       type "email@example.org"
       expect(process.output).to include("Phone:")
-      type "phone"
+      type "+1234"
 
       sleep 1
       expect(Property.where(completed: true).count).to eq(1)
+      property = Property.first
+      expect(property.title).to eq("My Title")
+      expect(property.kind).to eq("home")
+      expect(property.nightly_rate).to eq(300.1)
+      expect(property.address).to eq("Address")
+      expect(property.max_guests).to eq(3)
+      expect(property.email).to eq("email@example.org")
+      expect(property.phone).to eq("+1234")
+    end
+
+    it "allow entering incomplete data" do
+      process = run_interactive(cmd)
+      expect(process.output).to include("Starting with new property")
+      expect(process.output).to include("Title: ")
+      type "My Title"
+
+      sleep 1
+      process.terminate
+      expect(Property.count).to eq(1)
+      property = Property.first
+      expect(property.title).to eq("My Title")
+      expect(property.completed?).to eq(false)
     end
   end
 
