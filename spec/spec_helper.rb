@@ -1,3 +1,5 @@
+ENV['WIMDU_ENV'] ||= 'test'
+
 require 'aruba/api'
 require 'aruba/reporting'
 require 'aruba/in_process'
