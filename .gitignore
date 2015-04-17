@@ -5,3 +5,6 @@
 *.swp
 *~
 *#
+/logs/*
+/db/data.sqlite3
+/.gitignore
