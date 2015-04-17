@@ -29,15 +29,8 @@ module Wimdu
                   rescue SystemExit => e
                     e.status
                   ensure
-                    # TODO: reset your app here, free up resources, etc.
-                    # Examples:
-                    # MyApp.logger.flush
-                    # MyApp.logger.close
-                    # MyApp.logger = nil
-                    #
-                    # MyApp.reset_singleton_instance_variables
+                    Property.destroy_all
 
-                    # ...then we put the streams back.
                     $stderr = STDERR
                     $stdin = STDIN
                     $stdout = STDOUT

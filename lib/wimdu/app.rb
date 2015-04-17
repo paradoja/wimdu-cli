@@ -4,9 +4,24 @@ require_relative 'property_manager'
 
 module Wimdu
   class App < Thor
+    def initialize(*args)
+      @property_manager = PropertyManager.new($stdin, $stdout)
+      super(*args)
+    end
+
     desc "new", "Add a new property"
     def new
-      PropertyManager.new($stdin, $stdout).add
+      @property_manager.add
+    end
+
+    desc "list", "List fully added properties"
+    def list
+      @property_manager.list
+    end
+
+    desc "continue", "Continue adding properties"
+    def continue
+      @property_manager.continue
     end
   end
 end

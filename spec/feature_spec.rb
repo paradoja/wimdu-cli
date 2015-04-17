@@ -12,8 +12,19 @@ describe "Wimdu CLI" do
       expect(process.output).to include("Title: ")
       type "My Title"
       expect(process.output).to include("Property type")
-    end
+      type "home"
+      expect(process.output).to include("Nightly rate")
+      type "300.1"
+      expect(process.output).to include("Address:")
+      type "Address"
+      expect(process.output).to include("Max. guests:")
+      type "3"
+      expect(process.output).to include("Email:")
+      type "email@example.org"
+      expect(process.output).to include("Phone:")
+      type "phone"
 
-    # Please extend!
+      expect(Property.where(completed: true).count).to eq(1)
+    end
   end
 end

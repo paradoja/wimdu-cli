@@ -18,7 +18,7 @@ module Wimdu
         begin
           stdout.print "#{text}: "
           stdout.flush
-          value = stdin.gets
+          value = stdin.gets.strip
           raise EmptyValue.new(property) if value.blank?
           property.send("#{field}=", value)
           property.save!
@@ -30,8 +30,27 @@ module Wimdu
         end
       end
 
+      property.update(completed: true)
     rescue Interrupt
       # do nothing
+    end
+
+    def list
+      completed = Property.where(completed: true)
+      count = completed.count
+      if count.zero?
+        stdout.puts "No offers found."
+      else
+        stdout.puts "Found #{count} offer#{count > 1 ? '' : 's'}"
+        stdout.puts
+        completed.each do |property|
+          stdout.puts "#{property.code}: #{property.title}"
+        end
+      end
+    end
+
+    def continue
+      stdout.puts "TODO"
     end
 
     private
@@ -47,4 +66,6 @@ module Wimdu
       phone: "Phone"
     }
   end
+
+
 end
