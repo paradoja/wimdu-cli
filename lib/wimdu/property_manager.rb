@@ -30,7 +30,7 @@ module Wimdu
         end
       end
 
-      property.update(completed: true)
+      property.update!(completed: true)
     rescue Interrupt
       # do nothing
     end
