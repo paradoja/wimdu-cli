@@ -14,25 +14,8 @@ module Wimdu
     def add
       property = Property.create!
       stdout.puts "Starting with new property #{property.code}."
-      PROPERTY_METHODS.each do |field, text|
-        begin
-          stdout.print "#{text}: "
-          stdout.flush
-          value = stdin.gets.strip
-          raise EmptyValue.new(property) if value.blank?
-          property.send("#{field}=", value)
-          property.save!
-        rescue ActiveRecord::RecordInvalid => e
-          stdout.puts
-          stdout.puts e.message.match(/\A[^:]+: [a-zA-Z]+ (.+)\z/).try(:[], 1)
-          stdout.puts
-          redo
-        end
-      end
-
+      add_fields(property, PROPERTY_METHODS)
       property.update!(completed: true)
-    rescue Interrupt
-      # do nothing
     end
 
     def list
@@ -55,6 +38,26 @@ module Wimdu
 
     private
     attr_accessor :stdin, :stdout
+
+    def add_fields(property, methods)
+      methods.each do |field, text|
+        begin
+          stdout.print "#{text}: "
+          stdout.flush
+          value = stdin.gets.strip
+          raise EmptyValue.new(property) if value.blank?
+          property.send("#{field}=", value)
+          property.save!
+        rescue ActiveRecord::RecordInvalid => e
+          stdout.puts
+          stdout.puts e.message.match(/\A[^:]+: [a-zA-Z]+ (.+)\z/).try(:[], 1)
+          stdout.puts
+          redo
+        end
+      end
+    rescue Interrupt
+      # do nothing
+    end
 
     PROPERTY_METHODS = {
       title: "Title",
