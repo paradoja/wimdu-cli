@@ -1,16 +1,16 @@
-#!/bin/sh
+#!/usr/bin/env ruby
 
-# This is a stub to make the feature spec pass. You probably don't
-# want to build this in shell script.
+require "thor"
 
-sleep 0.5 # simulates slow startup with ruby/bundler
+class Wimdu < Thor
+  desc "new", "Add a new property"
+  def new
+    $stdout.puts "Starting with new property ABC1DEF2."
+    $stdout.print "Title: "
+    $stdout.flush # Aruba seems to require this
+    $stdin.gets
+    $stdout.puts "Address: "
+  end
+end
 
-case $1 in
-    new)
-        echo "Starting with new property ABC1DEF2."
-        echo
-        echo -n "Title: "
-        read title
-        echo -n "Address: "
-        ;;
-esac
+Wimdu.start
