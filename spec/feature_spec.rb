@@ -3,9 +3,9 @@ require "spec_helper"
 describe "Wimdu CLI" do
   let(:exe) { File.expand_path('../../bin/wimdu', __FILE__) }
 
-  # after :each do
-  #   Propety.destroy_all
-  # end
+  before :each do
+    Property.destroy_all
+  end
 
   describe "new" do
     let(:cmd) { "#{exe} new" }
@@ -28,8 +28,7 @@ describe "Wimdu CLI" do
       expect(process.output).to include("Phone:")
       type "phone"
 
-      # expect(Property.where(completed: true).count).to eq(1)
-      # aruba sets the db in a sub FIXME
+      expect(Property.where(completed: true).count).to eq(1)
     end
   end
 

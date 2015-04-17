@@ -19,8 +19,12 @@ environment = if ENV['WIMDU_ENV'].nil? || ENV['WIMDU_ENV'].empty?
 db_configuration = configurations[environment]
 ActiveRecord::Base.establish_connection(db_configuration)
 
+# Ensure the correct database is used even in 'strange' environments
+current_dir = Dir.pwd
+Dir.chdir ROOT_DIR
 ActiveRecord::Migration.verbose = false
 ActiveRecord::Migrator.migrate("#{ROOT_DIR}/db/migrate",
                                ENV["VERSION"] ? ENV["VERSION"].to_i : nil)
+Dir.chdir current_dir
 
 Dir[File.join ROOT_DIR, 'lib', 'wimdu', 'models' '/**/*.rb'].each(&method(:require))
