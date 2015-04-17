@@ -7,7 +7,7 @@ require 'psych'
 
 ROOT_DIR = File.dirname(__FILE__)
 
-Dir[File.join ROOT_DIR, 'lib/wimdu/models/**/*.rb'].each(&method(:require))
+Dir[File.join ROOT_DIR, 'models/**/*.rb'].each(&method(:require))
 
 log_path = File.join 'logs', 'debug.log'
 ActiveRecord::Base.logger = Logger.new(log_path) if File.exists? File.dirname(log_path)
