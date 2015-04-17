@@ -1,4 +1,10 @@
 module Wimdu
+  class EmptyValue < ActiveRecord::RecordInvalid
+    def message
+      "Validation failed: general Error: must insert a value"
+    end
+  end
+
   class PropertyManager
     def initialize(io_in, io_out)
       self.stdin = io_in
@@ -13,6 +19,7 @@ module Wimdu
           stdout.print "#{text}: "
           stdout.flush
           value = stdin.gets
+          raise EmptyValue.new(property) if value.blank?
           property.send("#{field}=", value)
           property.save!
         rescue ActiveRecord::RecordInvalid => e
