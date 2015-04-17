@@ -8,3 +8,4 @@
 /logs/*
 /.gitignore
 /db/*.sqlite3
+/tmp

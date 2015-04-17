@@ -10,6 +10,7 @@ module Wimdu
       property = Property.new(code: "ABC1DEF2")
       PROPERTY_METHODS.each do |field, text|
         stdout.print "#{text}: "
+        stdout.flush
         value = stdin.gets
         property.send("#{field}=", value)
         property.save!

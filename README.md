@@ -4,21 +4,6 @@ On wimdu.com, people can list their place to rent out. Wouldn't it be
 great if there was a more nerdy way to enter your data? How about a
 CLI?
 
-## To run tests
-
-```ruby
-$ WIMDU_ENV=test rake migrate
-$ rspec spec
-```
-
-## To execute
-
-Before executing anything, the migrations have to be run:
-
-```ruby
-$ rake migrate
-```
-
 ## The task
 
 Build a standalone app that allows users to list their place via a

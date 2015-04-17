@@ -11,7 +11,7 @@ describe "Wimdu CLI" do
       expect(process.output).to include("Starting with new property")
       expect(process.output).to include("Title: ")
       type "My Title"
-      expect(process.output).to include("Address: ")
+      expect(process.output).to include("Property type")
     end
 
     # Please extend!

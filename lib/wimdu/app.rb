@@ -1,5 +1,5 @@
 require 'thor'
-require_relative 'serializer'
+require_relative 'config'
 require_relative 'property_manager'
 
 module Wimdu
